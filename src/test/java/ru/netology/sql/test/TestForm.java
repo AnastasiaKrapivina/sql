@@ -16,7 +16,7 @@ public class TestForm {
 
     @Test
     @DisplayName("Should receive a username and password to enter your personal account")
-    void shouldValidLogin(){
+    void shouldValidLogin() {
         var loginPage = open("http://localhost:9999", LoginPage.class);
         var login = DataHelper.getAuthInfoWithTestData().getLogin();
         var password = DataHelper.getAuthInfoWithTestData().getPassword();
@@ -37,7 +37,7 @@ public class TestForm {
 
     @Test
     @DisplayName("If the password is entered incorrectly three times, the system will be blocked")
-    void shouldInvalidPassword(){
+    void shouldInvalidPassword() {
         var loginPage = open("http://localhost:9999", LoginPage.class);
         var login = DataHelper.getAuthInfoWithTestData().getLogin();
         var password = DataHelper.generateRandomPassword();

@@ -14,28 +14,32 @@ public class LoginPage {
     private SelenideElement passwordField = $("[data-test-id=password] input");
     private SelenideElement loginButton = $("[data-test-id=action-login]");
     private SelenideElement errorNotification = $("[data-test-id='error-notification']");
-    private SelenideElement blockInfo = $ (Selectors.withText("Доступ заблокирован"));
+    private SelenideElement blockInfo = $(Selectors.withText("Доступ заблокирован"));
 
     public void verifyErrorNotification() {
         errorNotification.shouldBe(visible);
     }
+
     public VerificationPage validLoginPassword(String login, String password) {
         loginPassword(login, password);
         return new VerificationPage();
     }
+
     public void loginPassword(String login, String password) {
         loginField.setValue(login);
         passwordField.setValue(password);
         loginButton.click();
-      }
+    }
+
     public void clear() {
         loginField.sendKeys(Keys.CONTROL + "A");
         loginField.sendKeys(Keys.BACK_SPACE);
-        passwordField.sendKeys(Keys.CONTROL + "A");;
+        passwordField.sendKeys(Keys.CONTROL + "A");
+        ;
         passwordField.sendKeys(Keys.BACK_SPACE);
     }
 
-    public SelenideElement getBlockInfo() {
-        return blockInfo.shouldBe(visible);
+    public void getBlockInfo() {
+        blockInfo.shouldBe(visible);
     }
 }
