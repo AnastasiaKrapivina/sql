@@ -19,15 +19,13 @@ public class LoginPage {
     public void verifyErrorNotification() {
         errorNotification.shouldBe(visible);
     }
-    public VerificationPage validLoginPassword(DataHelper.AuthInfo info) {
-        loginField.setValue(info.getLogin());
-        passwordField.setValue(info.getPassword());
-        loginButton.click();
+    public VerificationPage validLoginPassword(String login, String password) {
+        loginPassword(login, password);
         return new VerificationPage();
     }
-    public void validLoginInvalidPassword() {
-        loginField.setValue(DataHelper.getAuthInfoWithTestData().getLogin());
-        passwordField.setValue(DataHelper.generateRandomPassword());
+    public void loginPassword(String login, String password) {
+        loginField.setValue(login);
+        passwordField.setValue(password);
         loginButton.click();
       }
     public void clear() {
@@ -38,6 +36,6 @@ public class LoginPage {
     }
 
     public SelenideElement getBlockInfo() {
-        return blockInfo;
+        return blockInfo.shouldBe(visible);
     }
 }

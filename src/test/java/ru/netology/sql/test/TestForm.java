@@ -18,25 +18,38 @@ public class TestForm {
     @DisplayName("Should receive a username and password to enter your personal account")
     void shouldValidLogin(){
         var loginPage = open("http://localhost:9999", LoginPage.class);
-        var authInfo = DataHelper.getAuthInfoWithTestData();
-        var verificationPage = loginPage.validLoginPassword(authInfo);
+        var login = DataHelper.getAuthInfoWithTestData().getLogin();
+        var password = DataHelper.getAuthInfoWithTestData().getPassword();
+        var verificationPage = loginPage.validLoginPassword(login, password);
         var verificationCode = SQLHelper.getVerificationCode();
         verificationPage.validVerify((verificationCode.getCode()));
+    }
+
+    @Test
+    @DisplayName("Login attempt by an unregistered user")
+    void shouldUnregisteredUser() {
+        var loginPage = open("http://localhost:9999", LoginPage.class);
+        var login = DataHelper.generateRandomLogin();
+        var password = DataHelper.generateRandomPassword();
+        loginPage.loginPassword(login, password);
+        loginPage.verifyErrorNotification();
     }
 
     @Test
     @DisplayName("If the password is entered incorrectly three times, the system will be blocked")
     void shouldInvalidPassword(){
         var loginPage = open("http://localhost:9999", LoginPage.class);
-        loginPage.validLoginInvalidPassword();
+        var login = DataHelper.getAuthInfoWithTestData().getLogin();
+        var password = DataHelper.generateRandomPassword();
+        loginPage.loginPassword(login, password);
         loginPage.verifyErrorNotification();
         loginPage.clear();
-        loginPage.validLoginInvalidPassword();
+        loginPage.loginPassword(login, password);
         loginPage.verifyErrorNotification();
         loginPage.clear();
-        loginPage.validLoginInvalidPassword();
+        loginPage.loginPassword(login, password);
         loginPage.verifyErrorNotification();
-        loginPage.getBlockInfo().shouldBe(visible);
+        loginPage.getBlockInfo();
 
     }
 
